@@ -31,7 +31,7 @@ def escape_milvus_string(value: str) -> str:
 
 def create_hybrid_search_requests(dense_vector,sparse_vector,dense_params = None,sparse_params = None,expr=None,limit=5):
     if dense_params is None:
-        dense_params = {"metric_type":"COSINE"}
+        dense_params = {"metric_type":"IP"}
     if sparse_params is None:
         sparse_params = {"metric_type":"IP"}
     dense_req = AnnSearchRequest(

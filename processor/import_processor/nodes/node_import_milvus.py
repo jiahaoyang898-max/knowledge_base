@@ -93,7 +93,7 @@ class NodeImportMilvus(BaseNode):
             field_name="dense_vector",
             index_name = "dense_vector_index",
             index_type="AUTOINDEX",
-            metric_type = "COSINE"
+            metric_type = "IP"
         )
         index_params.add_index(
             field_name="sparse_vector",
@@ -107,7 +107,7 @@ class NodeImportMilvus(BaseNode):
             }
         )
         milvus_client.create_collection(
-            collections_name=collections_name,
+            collection_name=collections_name,
             schema=schema,
             index_params=index_params
         )

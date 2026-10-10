@@ -157,7 +157,7 @@ class NodeItemNameRecognition(BaseNode):
             field_name = "dense_vector",
             index_name="dense_vector_index",
             index_type="IVF_FLAT",
-            metric_type="cosine",
+            metric_type="IP",
             params ={"nlist":128}
         )
         index_params.add_index(
@@ -176,6 +176,8 @@ class NodeItemNameRecognition(BaseNode):
             schema = schema,
             index_params = index_params
         )
+        #新建集合后立即加载，避免后续写入报 collection not loaded
+        milvus_client.load_collection(collection_name)
 
 if __name__ == "__main__" :
     setup_logging()

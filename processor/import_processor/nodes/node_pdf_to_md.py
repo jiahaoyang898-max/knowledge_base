@@ -63,6 +63,13 @@ class NodePDFToMD(BaseNode):
         }
         response = requests.post(url,headers=header,json=data)
         if response.status_code != 200:
+            if response.status_code in (401, 403):
+                raise PdfConversionError(
+                    'MinerU 鉴权失败（HTTP {}），MINERU_API_TOKEN 已失效或无效。'
+                    '请登录 https://mineru.net 个人中心重新生成 API Token，'
+                    '并更新 .env 中的 MINERU_API_TOKEN 后重启导入服务。'
+                    '原始响应：{}'.format(response.status_code, response.text[:200])
+                )
             raise PdfConversionError('获取上传链接失败，响应状态:{},响应结果:{}'.format(response.status_code,response))
         result = response.json()
         if result["code"] != 0 :

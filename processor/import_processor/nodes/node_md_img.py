@@ -24,6 +24,9 @@ class NodeMDImg(BaseNode):
     def process(self,state: ImportGraphState):
         #步骤1
         md_content,md_path_obj,images_dir = self._step_1_get_content(state)
+        # 修复：无论后续是否处理图片，都先把正文写回 state，
+        # 否则无图片的 MD 文档会在 node_document_split 报“文件内容不能为空”
+        state["md_content"] = md_content
         if not images_dir.exists():
             self.logger.info("无图片文件夹，跳过图片处理")
             return state
